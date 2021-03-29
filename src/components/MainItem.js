@@ -5,11 +5,13 @@ const MainItem = props => {
   const {title, image, onPress} = props;
   return (
     <TouchableOpacity style={styles.itemCtnSl} onPress={onPress}>
-      <Image
-        style={styles.iconImageSl}
-        source={image ? {uri: image} : require('../assets/pokemon_default.png')}
-        resizeMode="contain"
-      />
+      {image && (
+        <Image
+          style={styles.iconImageSl}
+          source={{uri: image}}
+          resizeMode="contain"
+        />
+      )}
       <Text style={{textTransform: 'capitalize'}}>{title}</Text>
     </TouchableOpacity>
   );
@@ -18,6 +20,7 @@ const MainItem = props => {
 const styles = new StyleSheet.create({
   itemCtnSl: {
     flexDirection: 'row',
+    minHeight: 45,
     maxWidth: '95%',
     alignItems: 'center',
     marginVertical: 5,
@@ -26,8 +29,8 @@ const styles = new StyleSheet.create({
     borderWidth: 3,
   },
   iconImageSl: {
-    height: 50,
-    width: 50,
+    height: 80,
+    width: 80,
     marginRight: 20,
   },
 });

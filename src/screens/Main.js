@@ -113,16 +113,13 @@ const Main = () => {
     return (
       nextUrl != null &&
       isPaging &&
-      !dataFiltered && <ActivityIndicator size="large" />
+      !dataFiltered && <ActivityIndicator size="large" color="grey" />
     );
   };
 
   const onLocalSearch = text => {
     const newData = text
-      ? data.filter(item => {
-          console.log(item.name, item.name.toLowerCase().includes(text));
-          return item.name.includes(text.toLowerCase());
-        })
+      ? data.filter(item => item.name.includes(text.toLowerCase()))
       : null;
     setState({...state, dataFiltered: newData});
   };
@@ -149,17 +146,25 @@ const Main = () => {
               onRefresh={() => searchPokemon(API.BASE_POKEMON_URL, true)}
             />
           }
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           onEndReached={() => !dataFiltered && searchPokemon(nextUrl)}
           ListHeaderComponent={
             <View>
-              <Input autoCorrect={false} onChangeText={onLocalSearch} />
-              <Image
-                style={styles.mainImageSl}
-                source={require('../assets/main.png')}
-                resizeMode="contain"
+              <Input
+                autoCorrect={false}
+                onChangeText={onLocalSearch}
+                placeholder="Buscar pokémon en el listado..."
               />
-              <Header />
+              {!dataFiltered && (
+                <>
+                  <Image
+                    style={styles.mainImageSl}
+                    source={require('../assets/main.png')}
+                    resizeMode="contain"
+                  />
+                  <Header />
+                </>
+              )}
             </View>
           }
           ListEmptyComponent={
@@ -190,7 +195,7 @@ const Main = () => {
                 />
               </View>
               <Text style={styles.modalText}>{currentPokemon?.name}</Text>
-              {isLoading && <ActivityIndicator size="large" />}
+              {isLoading && <ActivityIndicator size="large" color="#ccc" />}
               <FlatList
                 data={currentPokemon?.images}
                 renderItem={renderModalItem}
