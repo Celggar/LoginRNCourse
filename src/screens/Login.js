@@ -1,76 +1,60 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  Image,
-  SafeAreaView,
-  View,
-  Button,
-} from 'react-native';
+import {View, SafeAreaView, StyleSheet, Image, Button} from 'react-native';
+import Header from '../../src/components/Header';
 import Input from '../components/Input';
 
 const Login = () => {
-  const [state, setstate] = useState({
+  /* const [user, setUser] = useState('');
+  const [pass, setPass] = useState(''); */
+  const [state, setState] = useState({
     user: '',
     pass: '',
   });
-  const handleButtonPressed = params => {
-    alert(`El usuario es: ${state.user}\n\n y el Password es: ${state.pass}`);
-  };
-  const handleOnChangeText = (name, text) => {
-    setstate({...state, [name]: text});
-  };
 
   return (
     <SafeAreaView>
-      <View style={styles.titleSl}>
-        <Text>LOGIN SCREEN</Text>
-      </View>
+      <Header title="Pantalla principal" />
       <Image
         style={styles.imageSl}
-        source={require('../assets/undraw_secure_login_pdn4.png')}
+        source={require('../assets/auth.png')}
+        resizeMode="contain"
       />
-      <View style={{marginHorizontal: 20}}>
-        <Input onChangeText={text => handleOnChangeText('user', text)} />
-      </View>
-
-      <View style={{marginHorizontal: 20, marginTop: 10}}>
+      <View style={styles.inputCtnSl}>
         <Input
-          validation={'^.{5,}$'}
-          password
-          onChangeText={text => handleOnChangeText('pass', text)}
+          validation="^.{3,}$"
+          label="Usuario"
+          errorMessage="El usuario debe tener más de 2 caracteres"
+          onChangeText={text => setState({...state, user: text})}
         />
       </View>
-
-      <View style={styles.btnCtnSl}>
-        <Button title="Continuar" onPress={handleButtonPressed} />
+      <View style={styles.inputCtnSl}>
+        <Input
+          showIcon
+          label="Contraseña"
+          validation="^.{5,}$"
+          errorMessage="La contraseña debe tener más de 4 caracteres"
+          onChangeText={text => setState({...state, pass: text})}
+        />
+      </View>
+      <View style={styles.inputCtnSl}>
+        <Button
+          title="Continuar"
+          onPress={() => {
+            const {user, pass} = state;
+            alert(`user: ${user}, pass: ${pass}`);
+          }}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = new StyleSheet.create({
-  containerSl: {},
-  titleSl: {
-    height: 45,
-    backgroundColor: '#CCCCCC20',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconSl: {
-    width: 25,
-    height: 25,
-    resizeMode: 'contain',
-  },
   imageSl: {
     width: '100%',
-    height: 200,
-    marginTop: 50,
-    resizeMode: 'contain',
+    height: 290,
   },
-  btnCtnSl: {
-    marginTop: 50,
-  },
+  inputCtnSl: {marginTop: 25, marginHorizontal: 20},
 });
 
 export default Login;
