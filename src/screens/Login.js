@@ -1,18 +1,26 @@
 import React, {useState} from 'react';
 import {View, SafeAreaView, StyleSheet, Image, Button} from 'react-native';
+import {useDispatch} from 'react-redux';
 import Header from '../../src/components/Header';
 import Input from '../components/Input';
+import {showAlert} from '../helpers/algorithms';
+import {setProfile} from '../redux/auth/auth.actions';
 
-const Login = () => {
-  /* const [user, setUser] = useState('');
-  const [pass, setPass] = useState(''); */
+const Login = props => {
+  const {navigation} = props;
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({
     user: '',
     pass: '',
   });
 
+  const setLogged = () => {
+    dispatch(setProfile(null, true));
+  };
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: 'white', height: '100%'}}>
       <Header title="Pantalla principal" />
       <Image
         style={styles.imageSl}
@@ -41,7 +49,12 @@ const Login = () => {
           title="Continuar"
           onPress={() => {
             const {user, pass} = state;
-            alert(`user: ${user}, pass: ${pass}`);
+            if (user.toLocaleLowerCase() === 'test' && pass === '12345') {
+              // navigation.navigate('PantallaPrincipal');
+              setLogged();
+            } else {
+              showAlert('El usuario y la contraseña no son válidos');
+            }
           }}
         />
       </View>

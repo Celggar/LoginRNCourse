@@ -1,0 +1,3 @@
+const SET_PROFILE = 'SET_PROFILE';
+
+export {SET_PROFILE};

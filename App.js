@@ -1,11 +1,19 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import Login from './src/screens/Login';
-import Main from './src/screens/Main';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 
-const App = () => {
-  return <Main />;
-  // return <Login />;
-};
-
+import {store, persist} from './src/redux/configStore';
+import {AppNavigation} from './src/app/AppNavigation';
+function App() {
+  return (
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persist}>
+          <AppNavigation />
+        </PersistGate>
+      </Provider>
+    </>
+  );
+}
 export {App};
