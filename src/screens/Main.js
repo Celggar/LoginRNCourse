@@ -40,6 +40,7 @@ const Main = props => {
   const searchPokemon = (url, isMainLoading) => {
     const loading = {isLoading: isMainLoading, isPaging: !isMainLoading};
     setState({...state, ...loading});
+    console.log(url);
     fetch(url)
       .then(response => response.json())
       .then(response => {

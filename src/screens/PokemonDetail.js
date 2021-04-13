@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
+import {SafeAreaView, FlatList, StyleSheet, Image} from 'react-native';
+import {
+  ActionSheet,
+  Card,
+  CardItem,
+  Left,
+  Body,
+  Text,
+  Button,
+  Right,
+  Icon,
+} from 'native-base';
 import Header from '../components/Header';
 import MainItem from '../components/MainItem';
 import {getValuesFromObj, showAlert} from '../helpers/algorithms';
@@ -44,9 +55,60 @@ const PokemonDetail = props => {
       });
   };
 
+  const showOptions = () => {
+    const buttons = ['Option 0', 'Option 1', 'Option 2', 'Delete', 'Cancel'];
+    ActionSheet.show(
+      {
+        options: buttons,
+        cancelButtonIndex: 4,
+        destructiveButtonIndex: 3,
+        title: 'Mi menu',
+      },
+      buttonIndex => {},
+    );
+  };
+
   const renderItem = ({item, index}) => {
     const {url: image, name: title} = item;
-    return <MainItem image={image} title={title} />;
+    // return <MainItem image={image} title={title} onPress={showOptions} />;
+    return (
+      <Card>
+        <CardItem>
+          <Left>
+            <Body>
+              <Text>NativeBase</Text>
+              <Text note>GeekyAnts</Text>
+            </Body>
+          </Left>
+        </CardItem>
+        <CardItem
+          cardBody
+          style={{alignItems: 'center', justifyContent: 'center'}}>
+          <Image
+            style={styles.iconImageSl}
+            source={{uri: image}}
+            resizeMode="contain"
+          />
+        </CardItem>
+        <CardItem>
+          <Left>
+            <Button transparent>
+              <Icon active name="thumbs-up" />
+              <Text>12 Likes</Text>
+            </Button>
+          </Left>
+          <Body>
+            <Button transparent>
+              <Icon active name="chatbubbles" />
+              <Text>4 Comments</Text>
+            </Button>
+          </Body>
+          <Right>
+            <Text>11h ago</Text>
+          </Right>
+        </CardItem>
+      </Card>
+    );
   };
 
   console.log(url);
@@ -69,6 +131,11 @@ const PokemonDetail = props => {
 
 const styles = StyleSheet.create({
   detailFlatListCtnSl: {paddingBottom: 50},
+  iconImageSl: {
+    height: 80,
+    width: 80,
+    marginRight: 20,
+  },
 });
 
 export default PokemonDetail;
